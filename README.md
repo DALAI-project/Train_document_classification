@@ -1,6 +1,15 @@
 # Document classification model training
 
-This repository contains code that was used for training the models for sticky note and folded corner detection. 
+This repository contains code that can be used for training a model to classify input documents into distinct classes.
+Bet results can be achieved with input that contains clearly distinguishable document formats, which differ structurally from 
+each other. 
+
+In the National Archives of Finland the code has been used for training a model to classify documents relating to Finnish
+inheritance taxation. These consist of a four-page form and an appendix, which can vary in length and format. The model was 
+trained to classify these documents into five classes, with one class for each page of the form and a separate class for the 
+document belonging to the appendix. With this data, the model was able to reach a high level of classification accuracy:
+
+
 
 Fault detection is formulated as an image classification task, where a neural network model is trained to distinguish 
 whether an image contains a specific fault or not. The neural network model has been built using the Pytorch library, 
