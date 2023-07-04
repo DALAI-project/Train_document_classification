@@ -111,18 +111,24 @@ The parameter values can be set in command line when initiating training:
 
 A Number of parameters are used for defining the conditions for model training. 
 
-Learning rate defines how much the model weights are tuned after each iteration based on the gradient of the loss function. In the code, there are different learning rates for the classification layer and the pretrained layers of the base model. The `lr` parameter defines the learning rate for the base model layers, and the learning rate for the classification layer is automatically set to be 10 times larger.
+The code allows the fine-tuning of the base model to be performed in two stages. In the first stage, the parameters of the base model are frozen, so that the training impacts only the parameters of the final classification layer. In the second stage, all parameters of the model are 'unfrozen' for training. In the code, the `num_epochs` parameter defines the number of epochs used in the first stage of training, and `unfreeze_epochs` defines the number of epochs used in the second stage of training.
 
-Batch size defines the number of images that are processed before the model weights are updated. Number of epochs, on the other hand, defines how many times during the training the model goes through the entire training dataset. Early stopping is a method used for reducing overfitting by stopping training after a specific learning metric (loss, accuracy etc.) has not improved during a defined number of epochs.
+Learning rate defines how much the model weights are tuned after each iteration based on the gradient of the loss function. In the code, the `lr` parameter defines the learning rate for the second stage of training, while the learning rate used for the classification layer's parameters in the first training stage is automatically set to be 10 times larger.
+
+Number of document types/classes used in the classification task is set using the `num_classes` parameter. This should correspond with the 
+
+Batch size sets the number of images that are processed before the model weights are updated. Early stopping is a method used for reducing overfitting by stopping training after a specific learning metric (loss, accuracy etc.) has not improved during a defined number of epochs.
 
 Random seed parameter is used for setting the seed for initializing random number generation. This makes the training results reproducible when using the same seed, model and data. 
 
 The `device` parameters defines whether cpu or gpu is used for model training. Currently the code does not support multi-gpu training.
 
 Parameters:
-- `lr` defines the learning rate used for adjusting the weights of the base model layers. The learning rate for the classification layer is always 10 times larger. Default value for the base learning rate is `0.0001`.
+- `lr` defines the learning rate used for the second stage of training. The learning rate for the first training stage (classification layer) is 10 times larger. Default value for the base learning rate is `0.0001`.
 - `batch_size` defines the number of images in one batch. Default batch size is `16`.
-- `num_epochs` sets the number of times the model goes through the entire training dataset. Default value is `15`.
+- `num_epochs` sets the number of epochs used in the first stage of training. Default value is `5`.
+- `unfreeze_epochs` sets the number of epochs used in the second stage of training. Default value is `5`.
+- `num_classes`: 
 - `early_stop_threshold` defines the number of epochs that training can go on without improvement in the chosen metric (validation F1 score by default). Default value is `2`.
 -  `random_seed` sets the seed for initializing random number generation. Default value is `8765`.
 -  `device` defines whether cpu or gpu is used for model training. Value can be for example `cpu`, `cuda:0` or `cuda:1`, depending on the specific gpu that is used.
@@ -130,24 +136,3 @@ Parameters:
 The parameter values can be set in command line when initiating training:
 
 `python train.py --lr 0.0001 --batch_size 16 --num_epochs 15 --early_stop_threshold 2 --random_seed 8765 --device cpu`
-
-### Parameter for data augmentation
-
-Data augmentations are used for increasing the diversity of the data and thus for helping to reduce overfitting. The available augmentation options are
-- `identity`: This augmentation option only resizes the image to the required model input size (224 x 224) and transforms it into a PyTorch tensor form. This is the choice when no augmentations should be applied during model training.
-- `rotate`: Image is rotated randomly between zero and 180 degrees. 
-- `color`: The brightness, hue, contrast and saturation values of the image are transformed randomly on a defined scale. 
-- `sharpness`: The sharpness of the image is transformed randomly on a defined scale.
-- `blur`: The blurriness of the image is transformed randomly on a defined scale.
-- `pad`: Padding of 3, 10 or 25 pixels is added to all sides of the image. The color of the padding is either black or white.
-- `perspective`: Transforms the perspective of the image based on randomly chosen values from a defined scale.
-- `None`: This option selects randomly an augmentation for each image from the above list. The options are weighted so that 'identity' is chosen with 40% probability, while each of the other augmentations has 10% probability of being selected.
-
-More information and examples of the different image transform options are available [here](https://pytorch.org/vision/stable/auto_examples/plot_transforms.html#sphx-glr-auto-examples-plot-transforms-py).
-
-Parameter:
--  `augment_choice` defines which image augmentation(s) are used during model training. Default value is `None`.  
-
-The parameter value can be set in command line when initiating training:
-
-`python train.py --augment_choice identity`
