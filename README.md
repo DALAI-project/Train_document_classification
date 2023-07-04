@@ -17,6 +17,15 @@ Page 3|3801|422|99.80%
 Page 4|3801|422|99.98%
 Appendix|4500|500|99.94%
 
+The code can be used for training a model to classify a varying number of document types in the input data. However, the following
+'rules of thumb' should be kept in mind:
+
+- The smaller the number of distinct classes, the better classification results can be generally expected.
+- The more dissimilar the documents belonging to different classes are from each other and the more similar with other documents
+  belonging to the same class, the easier the classification task is for the model.
+- The more there are training examples from each document class, the easier it will be for the model to learn to classify
+  the documents correctly.
+
 The code has been built using the Pytorch library, 
 and the model training is done by fine-tuning an existing [Densenet neural network model](https://pytorch.org/vision/main/models/generated/torchvision.models.densenet121.html). 
 
