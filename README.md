@@ -115,7 +115,7 @@ The code allows the fine-tuning of the base model to be performed in two stages.
 
 Learning rate defines how much the model weights are tuned after each iteration based on the gradient of the loss function. In the code, the `lr` parameter defines the learning rate for the second stage of training, while the learning rate used for the classification layer's parameters in the first training stage is automatically set to be 10 times larger.
 
-Number of document types/classes used in the classification task is set using the `num_classes` parameter. This should correspond with the 
+Number of document types/classes used in the classification task is set using the `num_classes` parameter. This should correspond with the number of data folders used for the training and validation data.
 
 Batch size sets the number of images that are processed before the model weights are updated. Early stopping is a method used for reducing overfitting by stopping training after a specific learning metric (loss, accuracy etc.) has not improved during a defined number of epochs.
 
@@ -128,11 +128,11 @@ Parameters:
 - `batch_size` defines the number of images in one batch. Default batch size is `16`.
 - `num_epochs` sets the number of epochs used in the first stage of training. Default value is `5`.
 - `unfreeze_epochs` sets the number of epochs used in the second stage of training. Default value is `5`.
-- `num_classes`: 
+- `num_classes`: sets the number of document types/classes used in the classification task. Default value is `5`.
 - `early_stop_threshold` defines the number of epochs that training can go on without improvement in the chosen metric (validation F1 score by default). Default value is `2`.
 -  `random_seed` sets the seed for initializing random number generation. Default value is `8765`.
 -  `device` defines whether cpu or gpu is used for model training. Value can be for example `cpu`, `cuda:0` or `cuda:1`, depending on the specific gpu that is used.
 
 The parameter values can be set in command line when initiating training:
 
-`python train.py --lr 0.0001 --batch_size 16 --num_epochs 15 --early_stop_threshold 2 --random_seed 8765 --device cpu`
+`python train.py --lr 0.0001 --batch_size 16 --num_epochs 5 --unfreeze_epochs 5 --num_classes 5 --early_stop_threshold 2 --random_seed 8765 --device cpu`
