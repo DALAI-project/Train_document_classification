@@ -13,9 +13,9 @@ Class|Training samples|Validation samples|Validation accuracy
 -|-|-|-
 Page 1|3799|422|99.95%
 Page 2|3799|422|99.95%
-Page 3|3801|422|99.80%
+Page 3|3801|422|99.88%
 Page 4|3801|422|99.98%
-Appendix|4500|500|99.94%
+Appendix|4500|500|99.56%
 
 The code can be used for training a model to classify a varying number of document types in the input data. However, the following
 'rules of thumb' should be kept in mind:
