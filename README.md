@@ -62,7 +62,7 @@ The different model parameters are explained in more detail below.
 ### Parameters related to training and validation data
 
 By default, the code expects the following folder structure, where training and validation data for each document class/type is
-placed in a separate folder named using a numeric value (1,2,3...):
+placed in a separate folder named with a numeric value (1,2,3...):
 
 ```
 ├──fault_detection 
@@ -82,35 +82,30 @@ placed in a separate folder named using a numeric value (1,2,3...):
       └──requirements.txt
 ```
 
-Therefore the images containing faults (for instance sticky notes or folded corners) and the images without faults to be located in separate folders.
-In addition, train and validation data for both types of images is also expected to be located in separate folders.
-
 Parameters:
-- `tr_data_folder` defines the folder where the training data containing faults is located. Default folder path is `./data/faulty/train`.
-- `val_data_folder` defines the folder where the validation data containing faults is located. Default folder path is `./data/faulty/val`.
-- `tr_ok_folder` defines the folder where the training data that does not contain faults is located. Default folder path is `./data/ok/train`.
-- `val_ok_folder` defines the folder where the validation data that does not contain faults is located. Default folder path is `./data/ok/val`.
+- `tr_data_folder` defines the folder where the training data is located. It is expected to contain subfolders for each document class, named using numeric values (1, 2, 3...). Default folder path is `./data/train/`.
+- `val_data_folder` defines the folder where the validation data is located. It is expected to contain subfolders for each document class, named using numeric values (1, 2, 3...). Default folder path is `./data/validation/`.
 
 The parameter values can be set in command line when initiating training:
 
-`python train.py --tr_data_folder ./data/faulty/train --val_data_folder ./data/faulty/val --tr_ok_folder ./data/ok/train --val_ok_folder ./data/ok/val`
+`python train.py --tr_data_folder ./data/train/ --val_data_folder ./data/validation/`
 
 The accepted input image file types are .jpg, .png and .tiff. Pdf files should be transformed into one of these images formats before used as an input to the model.
 
 ### Parameters related to saving the model and the training and validation results
 
-The training performance is measured using training and validation loss, accuracy and F1 score (more information on the F1 score can be found for example [here](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)). The average of these values is saved each epoch, and the resulting values are plotted and saved in the folder defined by the user.
+The training performance is measured using training and validation loss, accuracy and F1 score (more information on the F1 score can be found for example [here](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)). The average of these values is saved each epoch, and the resulting values are plotted and saved in the folder defined by the user. The confusion matrix containing the classification accuracy scores for each class is also plotted and saved after each epoch.
 
-The trained model is saved by default after each epoch when the validation F1 score improves the previous top score. The model can be saved either in the [ONNX](https://onnx.ai/) format that is not dependent on specific frameworks like PyTorch and is optimized for inference speed, or by using PyTorch's default format for saving the model in serialized form. In the first instance, the model is saved as `densenet_date.onnx` and in the latter instance as `densenet_date.pth`. Date refers to the current date, so that a model trained on 7.6.2023 would be saved in the ONNX format as `densenet_07062023.onnx`.
+The trained model is saved by default after each epoch when the validation F1 score improves the previous top score. The model is saved by default to the `./models`
+folder as `densenet_date.pth`. Date refers to the current date, so that a model trained on 4.7.2023 would be saved as `densenet_04072023.onnx`.
 
 Parameters:
-- `results_folder` defines the folder where the plots of the training an validation metrics (loss, accuracy, F1-score) and learning rates are saved. Default folder path is `./results`.
+- `results_folder` defines the folder where the plots of the training an validation metrics (loss, accuracy, F1-score) are saved. Default folder path is `./results`.
 - `save_model_path` defines the folder where the model file is saved. Default folder path is `./models`.
-- `save_model_format` defines the format in which the model is saved. The available options are PyTorch (`torch`) and ONNX (`onnx`) formats. Default format is `onnx`.
 
 The parameter values can be set in command line when initiating training:
 
-`python train.py --results_folder ./results --save_model_path ./models/ --save_model_format onnx`
+`python train.py --results_folder ./results --save_model_path ./models`
 
 ### Parameters related to model training
 
