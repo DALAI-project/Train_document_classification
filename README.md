@@ -9,17 +9,21 @@ inheritance taxation. These consist of a four-page form and an appendix, which c
 trained to classify these documents into five classes, with one class for each page of the form and a separate class for the 
 document belonging to the appendix. With this data, the model was able to reach a high level of classification accuracy:
 
+Class|Training samples|Validation samples|Validation accuracy
+-|-|-|-
+Page 1|3799|422|99.95%
+Page 2|3799|422|99.95%
+Page 3|3801|422|99.80%
+Page 4|3801|422|99.98%
+Appendix|4500|500|99.94%
 
-
-Fault detection is formulated as an image classification task, where a neural network model is trained to distinguish 
-whether an image contains a specific fault or not. The neural network model has been built using the Pytorch library, 
+The code has been built using the Pytorch library, 
 and the model training is done by fine-tuning an existing [Densenet neural network model](https://pytorch.org/vision/main/models/generated/torchvision.models.densenet121.html). 
 
-The code is split into three files: 
+The code is split into two files: 
 
 - `train.py` contains the main part of the code used for model training
-- `utils.py` contains utility functions used for example for saving the model and plotting the training and validation metrics
-- `augment.py` contains code for creating augmentations (f.ex. by using rotation, blurring and padding) of the input images
+- `utils.py` contains utility functions used for example for plotting the training and validation metrics
 
 ## Running the code in a virtual environment
 
@@ -28,9 +32,9 @@ More information on the installation is available [here](https://docs.conda.io/p
 
 #### Create and activate conda environment using the following commands:
 
-`conda create -n fault_detection_env python=3.7`
+`conda create -n doc_classification_env python=3.7`
 
-`conda activate fault_detection_env`
+`conda activate doc_classification_env`
 
 #### Install dependencies listed in the *requirements.txt* file:
 
@@ -48,22 +52,24 @@ The different model parameters are explained in more detail below.
 
 ### Parameters related to training and validation data
 
-By default, the code expects the following folder structure:
+By default, the code expects the following folder structure, where training and validation data for each document class/type is
+placed in a separate folder named using a numeric value (1,2,3...):
 
 ```
 ├──fault_detection 
       ├──models
       ├──results 
       ├──data
-      |   ├──faulty
-      |   |   ├──train
-      |   |   └──val
-      |   └──ok
-      |       ├──train
-      |       └──val
+      |   ├──train
+      |   |   ├──1
+      |   |   ├──2
+      |   |   ├──3 ...
+      |   └──validation
+      |   |   ├──1
+      |   |   ├──2
+      |   |   ├──3 ...
       ├──train.py
       ├──utils.py
-      ├──augment.py
       └──requirements.txt
 ```
 
