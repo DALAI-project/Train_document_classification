@@ -1,10 +1,10 @@
 # Document classification model training
 
 This repository contains code that can be used for training a model to classify input documents into distinct classes.
-Bet results can be achieved with input that contains clearly distinguishable document formats, which differ structurally from 
+Best results can be achieved with input that contains clearly distinguishable document formats, which differ structurally from 
 each other. 
 
-In the National Archives of Finland the code has been used for training a model to classify documents relating to Finnish
+In the National Archives of Finland, the code has been used for training a model to classify documents relating to Finnish
 inheritance taxation. These consist of a four-page form and an appendix, which can vary in length and format. The model was 
 trained to classify these documents into five classes, with one class for each page of the form and a separate class for the 
 document belonging to the appendix. With this data, the model was able to reach a high level of classification accuracy:
@@ -65,7 +65,7 @@ By default, the code expects the following folder structure, where training and 
 placed in a separate folder named with a numeric value (1,2,3...):
 
 ```
-├──fault_detection 
+├──doc_classification 
       ├──models
       ├──results 
       ├──data
@@ -97,7 +97,7 @@ The accepted input image file types are .jpg, .png and .tiff. Pdf files should b
 The training performance is measured using training and validation loss, accuracy and F1 score (more information on the F1 score can be found for example [here](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)). The average of these values is saved each epoch, and the resulting values are plotted and saved in the folder defined by the user. The confusion matrix containing the classification accuracy scores for each class is also plotted and saved after each epoch.
 
 The trained model is saved by default after each epoch when the validation F1 score improves the previous top score. The model is saved by default to the `./models`
-folder as `densenet_date.pth`. Date refers to the current date, so that a model trained on 4.7.2023 would be saved as `densenet_04072023.onnx`.
+folder as `densenet_date.pth`. Date refers to the current date, so that a model trained on 4.7.2023 would be saved as `densenet_04072023.pth`.
 
 Parameters:
 - `results_folder` defines the folder where the plots of the training an validation metrics (loss, accuracy, F1-score) are saved. Default folder path is `./results`.
@@ -113,13 +113,13 @@ A Number of parameters are used for defining the conditions for model training.
 
 The code allows the fine-tuning of the base model to be performed in two stages. In the first stage, the parameters of the base model are frozen, so that the training impacts only the parameters of the final classification layer. In the second stage, all parameters of the model are 'unfrozen' for training. In the code, the `num_epochs` parameter defines the number of epochs used in the first stage of training, and `unfreeze_epochs` defines the number of epochs used in the second stage of training.
 
-Learning rate defines how much the model weights are tuned after each iteration based on the gradient of the loss function. In the code, the `lr` parameter defines the learning rate for the second stage of training, while the learning rate used for the classification layer's parameters in the first training stage is automatically set to be 10 times larger.
+Learning rate defines how much the model weights are tuned after each iteration based on the gradient of the loss function. In the code, the `lr` parameter defines the learning rate for the second stage of training, while the learning rate used for the classification layer's parameters in the first training stage is automatically set to be 10 times larger than `lr`.
 
 Number of document types/classes used in the classification task is set using the `num_classes` parameter. This should correspond with the number of data folders used for the training and validation data.
 
-Batch size sets the number of images that are processed before the model weights are updated. Early stopping is a method used for reducing overfitting by stopping training after a specific learning metric (loss, accuracy etc.) has not improved during a defined number of epochs.
+Batch size (`batch_size`) sets the number of images that are processed before the model weights are updated. Early stopping (`early_stop_threshold`) is a method used for reducing overfitting by stopping training after a specific learning metric (loss, accuracy etc.) has not improved during a defined number of epochs.
 
-Random seed parameter is used for setting the seed for initializing random number generation. This makes the training results reproducible when using the same seed, model and data. 
+Random seed (`random_seed`) parameter is used for setting the seed for initializing random number generation. This makes the training results reproducible when using the same seed, model and data. 
 
 The `device` parameters defines whether cpu or gpu is used for model training. Currently the code does not support multi-gpu training.
 
