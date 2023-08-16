@@ -97,7 +97,7 @@ class ImageDataset(Dataset):
     def __getitem__(self, idx):
         img_path = self.img_paths[idx]
         try:
-            image = Image.open(img_path)
+            image = Image.open(img_path).convert('RGB')
             label = self.img_labels[idx]
         except:
             # Image is considered damaged if reading the image fails
@@ -269,7 +269,7 @@ def train_model(model, dataloaders, criterion, optimizer, scheduler, stage):
                     best_epoch = epoch
                 elif epoch - best_epoch > args.early_stop_threshold:
                     # terminates the training loop if validation accuracy has not improved
-                    print("Early stopped training at epoch %d" % epoch +1)
+                    print("Early stopped training at epoch ", str(epoch +1))
                     # Set early stopping condition
                     early_stop = True
                     break  
@@ -341,4 +341,5 @@ def main():
         
     print('Damaged images: ', damaged_images)
 
-main()
+if __name__ == '__main__':
+    main()
