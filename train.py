@@ -238,7 +238,7 @@ def train_model(model, dataloaders, criterion, optimizer, scheduler, stage):
                     all_preds += preds.tolist()
                     all_labels += labels.tolist()
                     # Get weighted F1 score for the results
-                    precision_recall_fscore = precision_recall_fscore_support(labels.numpy(), preds.numpy(), average='weighted', zero_division=0)
+                    precision_recall_fscore = precision_recall_fscore_support(labels.cpu().numpy(), preds.cpu().numpy(), average='weighted', zero_division=0)
                     f1_score = precision_recall_fscore[2]
 
                     # update statistics
