@@ -137,7 +137,7 @@ data_transforms = transforms.Compose([
 def get_conf_matrix(y_true, y_pred, epoch, stage):
     """Create confusion matrix from classification results."""
     conf_matrix = ConfusionMatrixDisplay.from_predictions(y_true, y_pred, normalize='true', display_labels=np.arange(1, args.num_classes + 1))
-    plt.savefig(args.results_folder + args.date + '_' + stage + '_epoch_' + str(epoch) + '.jpg', bbox_inches='tight')
+    plt.savefig(args.results_folder + '/' + args.date + '_' + stage + '_epoch_' + str(epoch) + '.jpg', bbox_inches='tight')
     plt.close()
 
 
@@ -316,6 +316,9 @@ def main():
     dataloaders_dict = initialize_dataloaders(data_dict)
     criterion = get_criterion(data_dict)
     n_steps = len(dataloaders_dict['train'])
+
+    if not os.path.exists(args.results_folder):
+        os.makedirs(args.results_folder)
 
     if args.num_epochs > 0:
         for name, param in model.named_parameters():
