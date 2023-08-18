@@ -27,7 +27,7 @@ def plot_metrics(hist_dict, results_folder, date, type):
     plt.xlabel('Epochs')
     plt.ylabel('Loss')
     plt.legend()
-    plt.savefig(results_folder + date + '_' + type + '_tr_val_loss.jpg', bbox_inches='tight')
+    plt.savefig(results_folder + '/' + date + '_' + type + '_tr_val_loss.jpg', bbox_inches='tight')
     plt.close()
 
     plt.plot(epochs, hist_dict['tr_acc'], 'g', label='Training accuracy')
@@ -36,7 +36,7 @@ def plot_metrics(hist_dict, results_folder, date, type):
     plt.xlabel('Epochs')
     plt.ylabel('Accuracy')
     plt.legend()
-    plt.savefig(results_folder + date +  '_' + type + '_tr_val_acc.jpg', bbox_inches='tight')
+    plt.savefig(results_folder + '/' + date +  '_' + type + '_tr_val_acc.jpg', bbox_inches='tight')
     plt.close()
 
     plt.plot(epochs, hist_dict['tr_f1'], 'g', label='Training F1 score')
@@ -45,5 +45,5 @@ def plot_metrics(hist_dict, results_folder, date, type):
     plt.xlabel('Epochs')
     plt.ylabel('F1 score')
     plt.legend()
-    plt.savefig(results_folder + date +  '_' + type + '_tr_val_f1.jpg', bbox_inches='tight')
+    plt.savefig(results_folder + '/' + date +  '_' + type + '_tr_val_f1.jpg', bbox_inches='tight')
     plt.close()
